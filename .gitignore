@@ -1,0 +1,28 @@
+# Secrets — this repo is PUBLIC. Never commit signing material.
+AuthKey*.p8
+*.mobileprovision
+*.p12
+*.cer
+*.certSigningRequest
+.env
+.env.*
+
+# Xcode
+build/
+DerivedData/
+*.xcarchive
+*.ipa
+xcuserdata/
+*.xcuserstate
+
+# SPM
+.build/
+.swiftpm/
+
+# Atlas
+tmp/
+.worktrees/
+.DS_Store
+
+# Atlas-internal (not part of the open-source project)
+STATUS.md
