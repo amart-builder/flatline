@@ -48,8 +48,20 @@ resolve_deps() {
 }
 
 device_id() {
-    xcrun devicectl list devices 2>/dev/null \
-        | awk '/iPhone/ && !/unavailable/ {print $(NF-2)}' | head -1
+    # Model names are multi-token, so parse the JSON instead of columns.
+    local json="/tmp/flatline-devices.json"
+    xcrun devicectl list devices --json-output "$json" >/dev/null 2>&1 || return 0
+    /usr/bin/python3 - "$json" << 'PY'
+import json, sys
+data = json.load(open(sys.argv[1]))
+for device in data.get("result", {}).get("devices", []):
+    props = device.get("deviceProperties", {})
+    conn = device.get("connectionProperties", {})
+    if "iPhone" in (device.get("hardwareProperties", {}).get("deviceType") or "") \
+       and conn.get("tunnelState") not in (None, "unavailable"):
+        print(device.get("identifier", ""))
+        break
+PY
 }
 
 # ── Commands ─────────────────────────────────────────────────────

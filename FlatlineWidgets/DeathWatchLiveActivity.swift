@@ -21,7 +21,7 @@ struct DeathWatchLiveActivity: Widget {
                         .foregroundStyle(Color.flatlineGreen)
                 }
                 DynamicIslandExpandedRegion(.center) {
-                    Text("TIME OF DEATH \(timeText(context.state.deathDate))")
+                    Text("TIME OF DEATH ~\(timeText(context.state.deathDate))")
                         .font(.system(size: 13, weight: .black, design: .monospaced))
                         .foregroundStyle(Color.flatlineGreen)
                         .minimumScaleFactor(0.8)
@@ -57,7 +57,7 @@ struct DeathWatchLiveActivity: Widget {
                     .font(.system(size: 11, design: .monospaced))
                     .foregroundStyle(Color.flatlineGreen.opacity(0.7))
             }
-            Text("TIME OF DEATH: \(timeText(context.state.deathDate))")
+            Text("TIME OF DEATH: ~\(timeText(context.state.deathDate))")
                 .font(.system(size: 16, weight: .black, design: .monospaced))
                 .foregroundStyle(Color.flatlineGreen)
             countdown(context, size: 40)

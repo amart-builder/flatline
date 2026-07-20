@@ -1,4 +1,5 @@
 import SwiftUI
+import ActivityKit
 import FlatlineKit
 
 /// The one-time setup: iOS won't let us create the battery automation for the
@@ -31,7 +32,7 @@ struct OnboardingFlow: View {
                 .font(.system(.title2, design: .monospaced).weight(.black))
                 .foregroundStyle(.white)
                 .multilineTextAlignment(.center)
-            Text("Flatline tells you when. A countdown appears on your Lock Screen the moment your battery starts flatlining.")
+            Text("Flatline tells you when. A countdown appears on your Lock Screen when your battery starts flatlining.")
                 .font(.system(.callout, design: .monospaced))
                 .foregroundStyle(.gray)
                 .multilineTextAlignment(.center)
@@ -65,15 +66,18 @@ struct OnboardingFlow: View {
 struct AutomationSetupView: View {
     var next: () -> Void
 
-    private let steps: [(String, String)] = [
-        ("1", "Open the Shortcuts app"),
-        ("2", "Tap Automation at the bottom"),
-        ("3", "Tap + to make a new automation"),
-        ("4", "Choose Battery Level"),
-        ("5", "Set the slider to 20% and pick Falls Below 20%"),
-        ("6", "Pick Run Immediately, then tap Next"),
-        ("7", "Search Flatline and pick Start Death Watch"),
-    ]
+    private var steps: [(String, String)] {
+        let pct = Int(FlatlineDefaults.threshold * 100)
+        return [
+            ("1", "Open the Shortcuts app"),
+            ("2", "Tap Automation at the bottom"),
+            ("3", "Tap + to make a new automation"),
+            ("4", "Choose Battery Level"),
+            ("5", "Set the slider to \(pct)% and pick Falls Below \(pct)%"),
+            ("6", "Pick Run Immediately, then tap Next"),
+            ("7", "Search Flatline and pick Start Death Watch"),
+        ]
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -169,10 +173,16 @@ struct ArmingView: View {
                     Text("waiting for first signal…")
                         .font(.system(.body, design: .monospaced))
                         .foregroundStyle(Color.flatlineGreen)
-                    Text("Test it: in Shortcuts, open your new automation and tap Run. The moment it reaches us, this screen flips.")
+                    Text("Quick test: in Shortcuts, make a plain shortcut (Shortcuts tab, +), add the Start Death Watch action, and run it once. This screen flips when the signal reaches us. Or skip the test and let the real \(Int(FlatlineDefaults.threshold * 100))% crossing prove it.")
                         .font(.system(.footnote, design: .monospaced))
                         .foregroundStyle(.gray)
                         .multilineTextAlignment(.center)
+                    if !ActivityAuthorizationInfo().areActivitiesEnabled {
+                        Text("⚠️ Live Activities are off for Flatline. Turn them on in Settings > Flatline or the countdown can't appear.")
+                            .font(.system(.footnote, design: .monospaced))
+                            .foregroundStyle(.yellow)
+                            .multilineTextAlignment(.center)
+                    }
                     Spacer()
                     Button("Verify later") { done() }
                         .font(.system(.footnote, design: .monospaced))

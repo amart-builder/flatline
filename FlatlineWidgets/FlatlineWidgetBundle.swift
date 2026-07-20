@@ -30,15 +30,16 @@ struct DeathProvider: TimelineProvider {
     }
 
     func getSnapshot(in context: Context, completion: @escaping (DeathEntry) -> Void) {
-        completion(currentEntry())
+        completion(currentEntry(isPreview: context.isPreview))
     }
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<DeathEntry>) -> Void) {
-        let entry = currentEntry()
+        let entry = currentEntry(isPreview: context.isPreview)
         // Widget refreshes are rationed (~40-70/day). Spend them where they
-        // matter: denser as the battery gets low, sparse when it's healthy.
+        // matter: denser as the battery gets low. A failed read counts as
+        // "unknown", not "full" — keep refreshes at medium density.
         let minutes: Double
-        switch entry.level ?? 1.0 {
+        switch entry.level ?? 0.5 {
         case ..<0.30: minutes = 15
         case ..<0.60: minutes = 30
         default: minutes = 60
@@ -46,9 +47,15 @@ struct DeathProvider: TimelineProvider {
         completion(Timeline(entries: [entry], policy: .after(entry.date.addingTimeInterval(minutes * 60))))
     }
 
-    /// Every widget wake records a sample — free telemetry for the model.
-    private func currentEntry() -> DeathEntry {
-        let sample = BatteryReader.recordSample()
+    /// Every real widget wake records a sample (free telemetry for the
+    /// model); gallery previews shouldn't touch the store.
+    private func currentEntry(isPreview: Bool) -> DeathEntry {
+        let sample: BatterySample?
+        if isPreview {
+            sample = BatteryReader.currentSample()
+        } else {
+            sample = BatteryReader.recordSample()
+        }
         return DeathEntry(date: .now, estimate: BatteryReader.estimate(), level: sample?.level)
     }
 }
@@ -141,7 +148,7 @@ struct DeathWidgetView: View {
                 Text("RESURRECTING 🔌")
                     .font(.system(.headline, design: .monospaced))
             } else if let deathDate = entry.estimate.deathDate, let tod = entry.estimate.timeOfDeathText {
-                Text("TIME OF DEATH \(tod)")
+                Text("TIME OF DEATH ~\(tod)")
                     .font(.system(size: 12, weight: .black, design: .monospaced))
                     .minimumScaleFactor(0.8)
                 Text(timerInterval: entry.date...max(deathDate, entry.date), countsDown: true)

@@ -27,4 +27,12 @@ enum FlatlineDefaults {
         get { suite.bool(forKey: onboardedKey) }
         set { suite.set(newValue, forKey: onboardedKey) }
     }
+
+    private static let issueKey = "deathwatch.issue"
+    /// Why the Lock Screen countdown couldn't start, if it couldn't.
+    /// Nil means healthy. Shown on DeathScreen so failures are never silent.
+    static var deathWatchIssue: String? {
+        get { suite.string(forKey: issueKey) }
+        set { suite.set(newValue, forKey: issueKey) }
+    }
 }

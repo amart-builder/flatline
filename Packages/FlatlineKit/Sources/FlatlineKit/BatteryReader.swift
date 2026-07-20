@@ -20,6 +20,17 @@ public enum BatteryReader {
         // the UI is exercisable in dev.
         return BatterySample(timestamp: now, level: 0.19, isCharging: false)
         #else
+        // UIDevice is MainActor-bound; widget timeline callbacks arrive on
+        // background queues, so funnel the read onto main.
+        if Thread.isMainThread {
+            return readSample(now: now)
+        }
+        return DispatchQueue.main.sync { readSample(now: now) }
+        #endif
+    }
+
+    #if !targetEnvironment(simulator)
+    private static func readSample(now: Date) -> BatterySample? {
         UIDevice.current.isBatteryMonitoringEnabled = true
         let level = UIDevice.current.batteryLevel
         guard level >= 0 else { return nil }  // -1 = unknown
@@ -29,8 +40,8 @@ public enum BatteryReader {
             level: Double(level),
             isCharging: state == .charging || state == .full
         )
-        #endif
     }
+    #endif
 
     /// Records the current state into the shared store. Call on every wake —
     /// app foregrounds, widget refreshes, and intent runs are the only

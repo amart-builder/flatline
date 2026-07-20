@@ -6,6 +6,8 @@ struct DeathScreen: View {
     @Environment(\.scenePhase) private var scenePhase
     @State private var estimate: Estimate?
     @State private var level: Double = 1.0
+    @State private var shareImage: Image?
+    @State private var issue: String?
     @State private var showSettings = false
     @State private var showOnboarding = !FlatlineDefaults.hasOnboarded
 
@@ -67,7 +69,7 @@ struct DeathScreen: View {
                 }
             } else if let deathDate = estimate.deathDate, let todText = estimate.timeOfDeathText {
                 VStack(spacing: 10) {
-                    Text("TIME OF DEATH: \(todText)")
+                    Text("TIME OF DEATH: ~\(todText)")
                         .font(.system(.title3, design: .monospaced).weight(.bold))
                         .foregroundStyle(.flatlineGreen)
                     Text(timerInterval: Date.now...max(deathDate, .now), countsDown: true)
@@ -84,6 +86,12 @@ struct DeathScreen: View {
                             .font(.system(.caption, design: .monospaced))
                             .foregroundStyle(.gray)
                     }
+                    if let issue {
+                        Text("⚠️ \(issue)")
+                            .font(.system(.caption, design: .monospaced))
+                            .foregroundStyle(.yellow)
+                            .multilineTextAlignment(.center)
+                    }
                 }
             } else {
                 Text("Reading vitals…")
@@ -99,11 +107,11 @@ struct DeathScreen: View {
 
     @ViewBuilder
     private var footer: some View {
-        if let estimate, let card = ShareCard(estimate: estimate, level: level) {
+        if let estimate, let shareImage {
             VStack(spacing: 10) {
                 ShareLink(
-                    item: card.render(),
-                    preview: SharePreview("Time of death: \(estimate.timeOfDeathText ?? "unknown")", image: card.render())
+                    item: shareImage,
+                    preview: SharePreview("Time of death: ~\(estimate.timeOfDeathText ?? "unknown")", image: shareImage)
                 ) {
                     Label("Share the diagnosis", systemImage: "square.and.arrow.up")
                         .font(.system(.callout, design: .monospaced))
@@ -115,7 +123,10 @@ struct DeathScreen: View {
                 // Manual fallback: works even without the Shortcuts automation.
                 if !estimate.isCharging {
                     Button {
-                        DeathWatch.startOrUpdate(estimate: estimate)
+                        Task {
+                            await DeathWatch.startOrUpdate(estimate: estimate)
+                            issue = FlatlineDefaults.deathWatchIssue
+                        }
                     } label: {
                         Text("Put countdown on Lock Screen")
                             .font(.system(.footnote, design: .monospaced))
@@ -130,7 +141,11 @@ struct DeathScreen: View {
         if let sample = BatteryReader.recordSample() {
             level = sample.level
         }
-        estimate = BatteryReader.estimate()
+        let fresh = BatteryReader.estimate()
+        estimate = fresh
+        issue = FlatlineDefaults.deathWatchIssue
+        // Render the share card once per refresh, not on every body pass.
+        shareImage = ShareCard(estimate: fresh, level: level)?.render()
     }
 }
 

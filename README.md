@@ -12,7 +12,7 @@ TIME OF DEATH: 3:42 PM
 ## How it works
 
 - iOS won't let apps run in the background to watch your battery. Flatline uses a side door: a **Shortcuts personal automation** ("When battery falls below 20%") fires a Flatline App Intent with no confirmation needed.
-- The intent estimates your time of death from your phone's recent drain rate (learned on-device) and starts a **Live Activity** with a system-rendered countdown — it ticks live without the app running.
+- The intent estimates your time of death from your phone's recent drain rate (learned on-device) and starts a **Live Activity** with a system-rendered countdown that ticks live without the app running.
 - A home screen **widget** shows the estimate any time.
 - Estimates are honest guesses. iOS gives apps battery level in 5% steps and no screen-on data, so Flatline says "around 3:42 PM" and means the "around."
 
@@ -24,9 +24,9 @@ Everything is computed and stored on your phone. The app makes zero network call
 
 ## Project layout
 
-- `Flatline/` — SwiftUI app
-- `FlatlineWidgets/` — widget + Live Activity extension
-- `Packages/FlatlineKit/` — the estimation engine (pure Swift, unit-tested: `cd Packages/FlatlineKit && swift test`)
+- `Flatline/`: SwiftUI app
+- `FlatlineWidgets/`: widget + Live Activity extension
+- `Packages/FlatlineKit/`: the estimation engine (pure Swift, unit-tested: `cd Packages/FlatlineKit && swift test`)
 
 ## Building
 
