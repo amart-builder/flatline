@@ -7,6 +7,7 @@ struct DeathScreen: View {
     @State private var estimate: Estimate?
     @State private var level: Double = 1.0
     @State private var showSettings = false
+    @State private var showOnboarding = !FlatlineDefaults.hasOnboarded
 
     var body: some View {
         VStack(spacing: 0) {
@@ -31,6 +32,9 @@ struct DeathScreen: View {
         .sheet(isPresented: $showSettings) {
             SettingsView()
                 .preferredColorScheme(.dark)
+        }
+        .fullScreenCover(isPresented: $showOnboarding) {
+            OnboardingFlow()
         }
     }
 
@@ -96,16 +100,28 @@ struct DeathScreen: View {
     @ViewBuilder
     private var footer: some View {
         if let estimate, let card = ShareCard(estimate: estimate, level: level) {
-            ShareLink(
-                item: card.render(),
-                preview: SharePreview("Time of death: \(estimate.timeOfDeathText ?? "unknown")", image: card.render())
-            ) {
-                Label("Share the diagnosis", systemImage: "square.and.arrow.up")
-                    .font(.system(.callout, design: .monospaced))
-                    .foregroundStyle(.black)
-                    .padding(.horizontal, 20)
-                    .padding(.vertical, 12)
-                    .background(.flatlineGreen, in: Capsule())
+            VStack(spacing: 10) {
+                ShareLink(
+                    item: card.render(),
+                    preview: SharePreview("Time of death: \(estimate.timeOfDeathText ?? "unknown")", image: card.render())
+                ) {
+                    Label("Share the diagnosis", systemImage: "square.and.arrow.up")
+                        .font(.system(.callout, design: .monospaced))
+                        .foregroundStyle(.black)
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 12)
+                        .background(.flatlineGreen, in: Capsule())
+                }
+                // Manual fallback: works even without the Shortcuts automation.
+                if !estimate.isCharging {
+                    Button {
+                        DeathWatch.startOrUpdate(estimate: estimate)
+                    } label: {
+                        Text("Put countdown on Lock Screen")
+                            .font(.system(.footnote, design: .monospaced))
+                            .foregroundStyle(.flatlineGreen.opacity(0.8))
+                    }
+                }
             }
         }
     }

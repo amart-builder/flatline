@@ -1,24 +1,10 @@
 import SwiftUI
 import FlatlineKit
 
-/// Shared defaults readable by the app, widget, and intents.
-enum FlatlineDefaults {
-    static let suite = UserDefaults(suiteName: SampleStore.appGroupID) ?? .standard
-    static let thresholdKey = "deathwatch.threshold"
-
-    /// Battery fraction below which the death watch is meant to fire (0.20 = 20%).
-    static var threshold: Double {
-        get {
-            let value = suite.double(forKey: thresholdKey)
-            return value > 0 ? value : 0.20
-        }
-        set { suite.set(newValue, forKey: thresholdKey) }
-    }
-}
-
 struct SettingsView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var threshold = FlatlineDefaults.threshold
+    @State private var showSetupGuide = false
 
     var body: some View {
         NavigationStack {
@@ -33,7 +19,13 @@ struct SettingsView: View {
                         FlatlineDefaults.threshold = newValue
                     }
                 } footer: {
-                    Text("Set your Shortcuts automation to the same number — Settings can't change the automation for you. Setup guide coming in onboarding.")
+                    Text("Set your Shortcuts automation to the same number (Settings can't change the automation for you).")
+                }
+
+                Section {
+                    Button("Automation setup guide") { showSetupGuide = true }
+                } footer: {
+                    Text("Extra credit: add automations at 15%, 10%, and 5% pointing at Start Death Watch (each one sharpens the countdown), and one for charger-connected pointing at Cancel Death Watch.")
                 }
 
                 Section {
@@ -47,6 +39,9 @@ struct SettingsView: View {
                 ToolbarItem(placement: .confirmationAction) {
                     Button("Done") { dismiss() }
                 }
+            }
+            .fullScreenCover(isPresented: $showSetupGuide) {
+                OnboardingFlow(startAtSteps: true)
             }
         }
     }

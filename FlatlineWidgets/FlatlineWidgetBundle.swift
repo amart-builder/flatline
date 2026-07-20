@@ -6,6 +6,7 @@ import FlatlineKit
 struct FlatlineWidgetBundle: WidgetBundle {
     var body: some Widget {
         DeathCountdownWidget()
+        DeathWatchLiveActivity()
     }
 }
 
