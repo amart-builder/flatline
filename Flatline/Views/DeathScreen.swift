@@ -111,10 +111,10 @@ struct DeathScreen: View {
     }
 
     private func refresh() {
-        if let sample = Battery.recordSample() {
+        if let sample = BatteryReader.recordSample() {
             level = sample.level
         }
-        estimate = Estimator.current()
+        estimate = BatteryReader.estimate()
     }
 }
 

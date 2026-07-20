@@ -69,7 +69,7 @@ extension Estimate {
 
     public var confidenceText: String? {
         switch confidence {
-        case .low: return "rough guess — still learning this phone"
+        case .low: return "rough guess, still learning this phone"
         case .medium: return "estimate from past behavior"
         case .high: return nil  // fresh data speaks for itself
         }

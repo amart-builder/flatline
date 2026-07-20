@@ -1,4 +1,5 @@
 import SwiftUI
+import FlatlineKit
 
 /// Scrolling cardiac-monitor trace. The heartbeat slows and weakens as the
 /// battery drops; at zero it flatlines.
@@ -42,16 +43,6 @@ struct EKGView: View {
         default: return 0
         }
     }
-}
-
-extension Color {
-    /// Phosphor-monitor green, the whole app's identity color.
-    static let flatlineGreen = Color(red: 0.15, green: 1.0, blue: 0.35)
-}
-
-extension ShapeStyle where Self == Color {
-    /// Lets `.foregroundStyle(.flatlineGreen)` dot-syntax resolve.
-    static var flatlineGreen: Color { .flatlineGreen }
 }
 
 #Preview {
