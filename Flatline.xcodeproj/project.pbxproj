@@ -3,15 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 60;
+	objectVersion = 77;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F1A700000000000000000B01 /* FlatlineApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A700000000000000000F01 /* FlatlineApp.swift */; };
-		F1A700000000000000000B02 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F1A700000000000000000F03 /* Assets.xcassets */; };
 		F1A700000000000000000B03 /* FlatlineKit in Frameworks */ = {isa = PBXBuildFile; productRef = F1A700000000000000000PD1 /* FlatlineKit */; };
 		F1A700000000000000000B04 /* FlatlineWidgetsExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = F1A700000000000000000PR2 /* FlatlineWidgetsExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		F1A700000000000000000B05 /* FlatlineWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A700000000000000000F04 /* FlatlineWidgetBundle.swift */; };
 		F1A700000000000000000B06 /* FlatlineKit in Frameworks */ = {isa = PBXBuildFile; productRef = F1A700000000000000000PD2 /* FlatlineKit */; };
 /* End PBXBuildFile section */
 
@@ -40,15 +37,43 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		F1A700000000000000000F01 /* FlatlineApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlatlineApp.swift; sourceTree = "<group>"; };
-		F1A700000000000000000F02 /* Flatline.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Flatline.entitlements; sourceTree = "<group>"; };
-		F1A700000000000000000F03 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		F1A700000000000000000F04 /* FlatlineWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlatlineWidgetBundle.swift; sourceTree = "<group>"; };
-		F1A700000000000000000F05 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F1A700000000000000000F06 /* FlatlineWidgets.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FlatlineWidgets.entitlements; sourceTree = "<group>"; };
 		F1A700000000000000000PR1 /* Flatline.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Flatline.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1A700000000000000000PR2 /* FlatlineWidgetsExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = FlatlineWidgetsExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		F1A700000000000000000EX1 /* Exceptions for "FlatlineWidgets" folder in "FlatlineWidgetsExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = F1A700000000000000000T02 /* FlatlineWidgetsExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		F1A700000000000000000SG1 /* Flatline */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = Flatline;
+			sourceTree = "<group>";
+		};
+		F1A700000000000000000SG2 /* FlatlineWidgets */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				F1A700000000000000000EX1 /* Exceptions for "FlatlineWidgets" folder in "FlatlineWidgetsExtension" target */,
+			);
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
+			path = FlatlineWidgets;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		F1A700000000000000000FW1 /* Frameworks */ = {
@@ -73,31 +98,11 @@
 		F1A700000000000000000G01 = {
 			isa = PBXGroup;
 			children = (
-				F1A700000000000000000G02 /* Flatline */,
-				F1A700000000000000000G03 /* FlatlineWidgets */,
+				F1A700000000000000000SG1 /* Flatline */,
+				F1A700000000000000000SG2 /* FlatlineWidgets */,
 				F1A700000000000000000G04 /* Packages */,
 				F1A700000000000000000G05 /* Products */,
 			);
-			sourceTree = "<group>";
-		};
-		F1A700000000000000000G02 /* Flatline */ = {
-			isa = PBXGroup;
-			children = (
-				F1A700000000000000000F01 /* FlatlineApp.swift */,
-				F1A700000000000000000F02 /* Flatline.entitlements */,
-				F1A700000000000000000F03 /* Assets.xcassets */,
-			);
-			path = Flatline;
-			sourceTree = "<group>";
-		};
-		F1A700000000000000000G03 /* FlatlineWidgets */ = {
-			isa = PBXGroup;
-			children = (
-				F1A700000000000000000F04 /* FlatlineWidgetBundle.swift */,
-				F1A700000000000000000F05 /* Info.plist */,
-				F1A700000000000000000F06 /* FlatlineWidgets.entitlements */,
-			);
-			path = FlatlineWidgets;
 			sourceTree = "<group>";
 		};
 		F1A700000000000000000G04 /* Packages */ = {
@@ -133,6 +138,9 @@
 			dependencies = (
 				F1A700000000000000000D01 /* PBXTargetDependency */,
 			);
+			fileSystemSynchronizedGroups = (
+				F1A700000000000000000SG1 /* Flatline */,
+			);
 			name = Flatline;
 			packageProductDependencies = (
 				F1A700000000000000000PD1 /* FlatlineKit */,
@@ -152,6 +160,9 @@
 			);
 			dependencies = (
 			);
+			fileSystemSynchronizedGroups = (
+				F1A700000000000000000SG2 /* FlatlineWidgets */,
+			);
 			name = FlatlineWidgetsExtension;
 			packageProductDependencies = (
 				F1A700000000000000000PD2 /* FlatlineKit */,
@@ -167,19 +178,19 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1500;
-				LastUpgradeCheck = 1500;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					F1A700000000000000000T01 = {
-						CreatedOnToolsVersion = 15.0;
+						CreatedOnToolsVersion = 16.0;
 					};
 					F1A700000000000000000T02 = {
-						CreatedOnToolsVersion = 15.0;
+						CreatedOnToolsVersion = 16.0;
 					};
 				};
 			};
 			buildConfigurationList = F1A700000000000000000CL1 /* Build configuration list for PBXProject "Flatline" */;
-			compatibilityVersion = "Xcode 14.0";
+			compatibilityVersion = "Xcode 15.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -205,7 +216,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F1A700000000000000000B02 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,7 +226,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F1A700000000000000000B01 /* FlatlineApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -224,7 +233,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F1A700000000000000000B05 /* FlatlineWidgetBundle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -355,8 +363,6 @@
 		F1A700000000000000000C05 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = "";
-				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = "";
 				CODE_SIGN_ENTITLEMENTS = FlatlineWidgets/FlatlineWidgets.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -380,8 +386,6 @@
 		F1A700000000000000000C06 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = "";
-				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = "";
 				CODE_SIGN_ENTITLEMENTS = FlatlineWidgets/FlatlineWidgets.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
